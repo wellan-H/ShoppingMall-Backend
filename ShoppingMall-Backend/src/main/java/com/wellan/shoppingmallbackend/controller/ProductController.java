@@ -1,19 +1,9 @@
 package com.wellan.shoppingmallbackend.controller;
 
 import com.wellan.shoppingmallbackend.Product;
-import com.wellan.shoppingmallbackend.ProductRowmapper;
 import com.wellan.shoppingmallbackend.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 
 @RestController
 public class ProductController {
