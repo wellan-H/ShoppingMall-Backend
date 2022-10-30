@@ -1,9 +1,13 @@
 package com.wellan.shoppingmallbackend.controller;
 
-import com.wellan.shoppingmallbackend.Product;
+import com.wellan.shoppingmallbackend.model.Product;
 import com.wellan.shoppingmallbackend.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.constraints.NotNull;
 
 @RestController
 public class ProductController {
@@ -13,8 +17,13 @@ public class ProductController {
     //CRUD
 //    Read
     @GetMapping("/product/{productId}")
-    public Product selectByproductId(@PathVariable Integer productId){
-        return productService.selectById(productId);
+    public ResponseEntity<Product> selectByproductId(@PathVariable Integer productId){
+        Product product = productService.selectById(productId);
+        if(product != null){
+            return ResponseEntity.status(HttpStatus.OK).body(product);
+        }else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
     }
 //    Create()
     @PostMapping("/product")
@@ -24,13 +33,13 @@ public class ProductController {
     }
 //    Update()
     @PutMapping("/product/{productId}")
-    public void update(@PathVariable Integer productId,
+    public void update(@PathVariable @NotNull  Integer productId,
                          @RequestBody Product product){
         productService.updateById(productId,product);
     }
 //    Delete()
     @DeleteMapping("/product/{productId}")
-    public void delete(@PathVariable Integer productId){
+    public void delete(@PathVariable @NotNull  Integer productId){
         productService.deleteById(productId);
     }
 

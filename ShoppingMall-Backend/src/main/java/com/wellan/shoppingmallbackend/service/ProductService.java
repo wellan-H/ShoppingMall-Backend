@@ -1,6 +1,6 @@
 package com.wellan.shoppingmallbackend.service;
 
-import com.wellan.shoppingmallbackend.Product;
+import com.wellan.shoppingmallbackend.model.Product;
 
 public interface ProductService {
     Product selectById(Integer id);
