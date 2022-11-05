@@ -2,6 +2,7 @@ package com.wellan.shoppingmallbackend.service;
 
 import com.wellan.shoppingmallbackend.constant.ProductCategory;
 import com.wellan.shoppingmallbackend.dao.ProductDao;
+import com.wellan.shoppingmallbackend.dto.ProductQueryParam;
 import com.wellan.shoppingmallbackend.dto.ProductRequest;
 import com.wellan.shoppingmallbackend.model.Product;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +16,8 @@ public class ProductServiceImpl implements ProductService{
     private ProductDao productDao;
 
     @Override
-    public List<Product> getProducts(ProductCategory productCategory, String search) {
-        return productDao.getProducts(productCategory,search);
+    public List<Product> getProducts(ProductQueryParam productQueryParam) {
+        return productDao.getProducts(productQueryParam);
     }
 
     @Override

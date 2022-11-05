@@ -1,6 +1,7 @@
 package com.wellan.shoppingmallbackend.controller;
 
 import com.wellan.shoppingmallbackend.constant.ProductCategory;
+import com.wellan.shoppingmallbackend.dto.ProductQueryParam;
 import com.wellan.shoppingmallbackend.dto.ProductRequest;
 import com.wellan.shoppingmallbackend.model.Product;
 import com.wellan.shoppingmallbackend.service.ProductService;
@@ -19,7 +20,10 @@ public class ProductController {
     @GetMapping("/products")
     public ResponseEntity<List<Product>> getProducts(@RequestParam(required = false) ProductCategory category,
                                                      @RequestParam(required = false) String search){
-        List<Product> productList = productService.getProducts(category,search);
+        ProductQueryParam productQueryParam = new ProductQueryParam();
+        productQueryParam.setProductCategory(category);
+        productQueryParam.setSearch(search);
+        List<Product> productList = productService.getProducts(productQueryParam);
         return ResponseEntity.status(HttpStatus.OK).body(productList);
     }
     @GetMapping("/products/{productId}")

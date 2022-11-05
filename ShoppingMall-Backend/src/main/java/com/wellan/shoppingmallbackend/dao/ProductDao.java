@@ -1,6 +1,7 @@
 package com.wellan.shoppingmallbackend.dao;
 
 import com.wellan.shoppingmallbackend.constant.ProductCategory;
+import com.wellan.shoppingmallbackend.dto.ProductQueryParam;
 import com.wellan.shoppingmallbackend.dto.ProductRequest;
 import com.wellan.shoppingmallbackend.model.Product;
 
@@ -15,5 +16,5 @@ public interface ProductDao {
 
     void deleteProductById(Integer productId);
 
-    List<Product> getProducts(ProductCategory productCategory, String search);
+    List<Product> getProducts(ProductQueryParam productQueryParam);
 }

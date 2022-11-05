@@ -1,6 +1,7 @@
 package com.wellan.shoppingmallbackend.dao;
 
 import com.wellan.shoppingmallbackend.constant.ProductCategory;
+import com.wellan.shoppingmallbackend.dto.ProductQueryParam;
 import com.wellan.shoppingmallbackend.dto.ProductRequest;
 import com.wellan.shoppingmallbackend.model.Product;
 import com.wellan.shoppingmallbackend.rowmapper.ProductRowMapper;
@@ -21,18 +22,18 @@ public class ProductDaoImpl implements ProductDao{
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     @Override
-    public List<Product> getProducts(ProductCategory productCategory, String search) {
+    public List<Product> getProducts(ProductQueryParam productQueryParam) {
         String sql = "SELECT product_id, product_name, category, image_url, " +
                 "price, stock, description, created_date, last_modified_date " +
                 "FROM product WHERE 1=1 ";
         Map<String , Object> map = new HashMap<>();
-        if (productCategory!=null){
+        if (productQueryParam.getProductCategory()!=null){
             sql = sql+" AND category=:category ";
-            map.put("category",productCategory.name());
+            map.put("category",productQueryParam.getProductCategory().name());
         }
-        if (search!=null){
+        if (productQueryParam.getSearch()!=null){
             sql = sql+" AND product_name LIKE :search ";
-            map.put("search","%"+search+"%");
+            map.put("search","%"+productQueryParam.getSearch()+"%");
         }
         List<Product> productList = namedParameterJdbcTemplate.query(sql, map, new ProductRowMapper());
         return productList;
