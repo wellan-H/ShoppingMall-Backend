@@ -1,5 +1,6 @@
 package com.wellan.shoppingmallbackend.service;
 
+import com.wellan.shoppingmallbackend.constant.ProductCategory;
 import com.wellan.shoppingmallbackend.dto.ProductRequest;
 import com.wellan.shoppingmallbackend.model.Product;
 import org.springframework.stereotype.Component;
@@ -16,5 +17,5 @@ public interface ProductService {
 
     void deleteProductById(Integer productId);
 
-    List<Product> getProducts();
+    List<Product> getProducts(ProductCategory productCategory, String search);
 }

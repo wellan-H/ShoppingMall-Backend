@@ -1,5 +1,6 @@
 package com.wellan.shoppingmallbackend.service;
 
+import com.wellan.shoppingmallbackend.constant.ProductCategory;
 import com.wellan.shoppingmallbackend.dao.ProductDao;
 import com.wellan.shoppingmallbackend.dto.ProductRequest;
 import com.wellan.shoppingmallbackend.model.Product;
@@ -14,8 +15,8 @@ public class ProductServiceImpl implements ProductService{
     private ProductDao productDao;
 
     @Override
-    public List<Product> getProducts() {
-        return productDao.getProducts();
+    public List<Product> getProducts(ProductCategory productCategory, String search) {
+        return productDao.getProducts(productCategory,search);
     }
 
     @Override
