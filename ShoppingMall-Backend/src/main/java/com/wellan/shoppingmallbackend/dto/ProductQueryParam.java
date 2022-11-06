@@ -1,12 +1,31 @@
 package com.wellan.shoppingmallbackend.dto;
 
 import com.wellan.shoppingmallbackend.constant.ProductCategory;
+import org.springframework.web.bind.annotation.RequestParam;
 
 public class ProductQueryParam {
-    private ProductCategory productCategory;
+    private ProductCategory category;
     private String search;
     private String orderBy;
     private String sort;
+    private Integer limit;
+    private Integer offset;
+
+    public Integer getLimit() {
+        return limit;
+    }
+
+    public void setLimit(Integer limit) {
+        this.limit = limit;
+    }
+
+    public Integer getOffset() {
+        return offset;
+    }
+
+    public void setOffset(Integer offset) {
+        this.offset = offset;
+    }
 
     public String getOrderBy() {
         return orderBy;
@@ -24,12 +43,12 @@ public class ProductQueryParam {
         this.sort = sort;
     }
 
-    public ProductCategory getProductCategory() {
-        return productCategory;
+    public ProductCategory getCategory() {
+        return category;
     }
 
-    public void setProductCategory(ProductCategory productCategory) {
-        this.productCategory = productCategory;
+    public void setCategory(ProductCategory category) {
+        this.category = category;
     }
 
     public String getSearch() {

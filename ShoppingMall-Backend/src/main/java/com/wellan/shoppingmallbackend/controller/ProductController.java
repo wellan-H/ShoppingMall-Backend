@@ -8,29 +8,38 @@ import com.wellan.shoppingmallbackend.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import java.util.List;
-
+@Validated
 @RestController
 public class ProductController {
     @Autowired
     private ProductService productService;
     @GetMapping("/products")
     public ResponseEntity<List<Product>> getProducts(
-                                                //  查詢條件
-                                                    @RequestParam(required = false) ProductCategory category,
-                                                    @RequestParam(required = false) String search,
-                                                //   排序條件
-                                                    @RequestParam(defaultValue = "created_date")String orderBy,
-                                                    @RequestParam(defaultValue = "desc") String sort){
+//            查詢參數
+            @RequestParam(required = false) ProductCategory category,
+            @RequestParam(required = false) String search,
+//            排序參數
+            @RequestParam(defaultValue = "created_date") String orderBy,
+            @RequestParam(defaultValue = "desc")String sort,
+//            分頁參數
+            @RequestParam(defaultValue = "5")@Max(1000) Integer limit,
+            @RequestParam(defaultValue ="0")@Min(0) Integer offset
+    ){
         ProductQueryParam productQueryParam = new ProductQueryParam();
-        productQueryParam.setProductCategory(category);
+        productQueryParam.setCategory(category);
         productQueryParam.setSearch(search);
         productQueryParam.setOrderBy(orderBy);
         productQueryParam.setSort(sort);
-        List<Product> productList = productService.getProducts(productQueryParam);
+        productQueryParam.setLimit(limit);
+        productQueryParam.setOffset(offset);
+        List<Product> productList =productService.getProducts(productQueryParam);
         return ResponseEntity.status(HttpStatus.OK).body(productList);
     }
     @GetMapping("/products/{productId}")

@@ -1,6 +1,5 @@
 package com.wellan.shoppingmallbackend.service;
 
-import com.wellan.shoppingmallbackend.constant.ProductCategory;
 import com.wellan.shoppingmallbackend.dto.ProductQueryParam;
 import com.wellan.shoppingmallbackend.dto.ProductRequest;
 import com.wellan.shoppingmallbackend.model.Product;
@@ -18,5 +17,5 @@ public interface ProductService {
 
     void deleteProductById(Integer productId);
 
-    List<Product> getProducts(ProductQueryParam  productQueryParam);
+    List<Product> getProducts(ProductQueryParam productQueryParam);
 }

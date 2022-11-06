@@ -1,6 +1,5 @@
 package com.wellan.shoppingmallbackend.dao;
 
-import com.wellan.shoppingmallbackend.constant.ProductCategory;
 import com.wellan.shoppingmallbackend.dto.ProductQueryParam;
 import com.wellan.shoppingmallbackend.dto.ProductRequest;
 import com.wellan.shoppingmallbackend.model.Product;
@@ -23,21 +22,25 @@ public class ProductDaoImpl implements ProductDao{
 
     @Override
     public List<Product> getProducts(ProductQueryParam productQueryParam) {
-        String sql = "SELECT product_id, product_name, category, image_url, " +
-                "price, stock, description, created_date, last_modified_date " +
+        String sql = "SELECT product_id, product_name, category, " +
+                "image_url, price, stock, description, created_date, last_modified_date " +
                 "FROM product WHERE 1=1 ";
-        Map<String , Object> map = new HashMap<>();
-        if (productQueryParam.getProductCategory()!=null){
-            sql = sql+" AND category=:category ";
-            map.put("category",productQueryParam.getProductCategory().name());
+        Map<String,Object>map = new HashMap<>();
+        if(productQueryParam.getCategory()!=null){
+            sql= sql+" AND category = :category";
+            map.put("category",productQueryParam.getCategory().name());
         }
-        if (productQueryParam.getSearch()!=null){
-            sql = sql+" AND product_name LIKE :search ";
-            map.put("search","%"+productQueryParam.getSearch()+"%");
+        if(productQueryParam.getSearch()!=null){
+            sql= sql+" AND product_name LIKE :search ";
+            map.put("search", "%"+productQueryParam.getSearch()+"%");
         }
-        sql = sql + " ORDER BY "+productQueryParam.getOrderBy()+" "+productQueryParam.getSort();
-        List<Product> productList = namedParameterJdbcTemplate.query(sql, map, new ProductRowMapper());
-        return productList;
+        sql = sql+" ORDER BY "+productQueryParam.getOrderBy()+" "+productQueryParam.getSort();
+        sql=sql+" LIMIT :limit OFFSET :offset";
+        map.put("limit",productQueryParam.getLimit());
+        map.put("offset",productQueryParam.getOffset());
+        return namedParameterJdbcTemplate.query(sql, new MapSqlParameterSource(map), new ProductRowMapper());
+
+
     }
 
     @Override

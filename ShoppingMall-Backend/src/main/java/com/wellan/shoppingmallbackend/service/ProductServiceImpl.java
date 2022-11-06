@@ -1,6 +1,5 @@
 package com.wellan.shoppingmallbackend.service;
 
-import com.wellan.shoppingmallbackend.constant.ProductCategory;
 import com.wellan.shoppingmallbackend.dao.ProductDao;
 import com.wellan.shoppingmallbackend.dto.ProductQueryParam;
 import com.wellan.shoppingmallbackend.dto.ProductRequest;
