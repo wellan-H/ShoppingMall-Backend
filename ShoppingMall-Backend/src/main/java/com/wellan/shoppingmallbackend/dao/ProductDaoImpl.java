@@ -19,13 +19,7 @@ import java.util.Map;
 public class ProductDaoImpl implements ProductDao{
     @Autowired
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
-
-    @Override
-    public List<Product> getProducts(ProductQueryParam productQueryParam) {
-        String sql = "SELECT product_id, product_name, category, " +
-                "image_url, price, stock, description, created_date, last_modified_date " +
-                "FROM product WHERE 1=1 ";
-        Map<String,Object>map = new HashMap<>();
+    private String addFilteringSql(String sql,Map map,ProductQueryParam productQueryParam){
         if(productQueryParam.getCategory()!=null){
             sql= sql+" AND category = :category";
             map.put("category",productQueryParam.getCategory().name());
@@ -34,6 +28,25 @@ public class ProductDaoImpl implements ProductDao{
             sql= sql+" AND product_name LIKE :search ";
             map.put("search", "%"+productQueryParam.getSearch()+"%");
         }
+        return sql;
+    }
+
+    @Override
+    public Integer getProductCount(ProductQueryParam productQueryParam) {
+        String sql = "SELECT COUNT(*) FROM product WHERE 1=1 ";
+        Map<String,Object>map = new HashMap<>();
+
+        sql = addFilteringSql(sql, map, productQueryParam);
+        return namedParameterJdbcTemplate.queryForObject(sql,map,Integer.class);
+    }
+
+    @Override
+    public List<Product> getProducts(ProductQueryParam productQueryParam) {
+        String sql = "SELECT product_id, product_name, category, " +
+                "image_url, price, stock, description, created_date, last_modified_date " +
+                "FROM product WHERE 1=1 ";
+        Map<String,Object>map = new HashMap<>();
+        sql=addFilteringSql(sql,map,productQueryParam);
         sql = sql+" ORDER BY "+productQueryParam.getOrderBy()+" "+productQueryParam.getSort();
         sql=sql+" LIMIT :limit OFFSET :offset";
         map.put("limit",productQueryParam.getLimit());

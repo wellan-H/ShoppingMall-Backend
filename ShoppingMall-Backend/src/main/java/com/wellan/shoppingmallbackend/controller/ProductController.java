@@ -5,6 +5,7 @@ import com.wellan.shoppingmallbackend.dto.ProductQueryParam;
 import com.wellan.shoppingmallbackend.dto.ProductRequest;
 import com.wellan.shoppingmallbackend.model.Product;
 import com.wellan.shoppingmallbackend.service.ProductService;
+import com.wellan.shoppingmallbackend.util.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +22,7 @@ public class ProductController {
     @Autowired
     private ProductService productService;
     @GetMapping("/products")
-    public ResponseEntity<List<Product>> getProducts(
+    public ResponseEntity<Page<Product>> getProducts(
 //            查詢參數
             @RequestParam(required = false) ProductCategory category,
             @RequestParam(required = false) String search,
@@ -29,7 +30,7 @@ public class ProductController {
             @RequestParam(defaultValue = "created_date") String orderBy,
             @RequestParam(defaultValue = "desc")String sort,
 //            分頁參數
-            @RequestParam(defaultValue = "5")@Max(1000) Integer limit,
+            @RequestParam(defaultValue = "5")@Max(1000) @Min(0) Integer limit,
             @RequestParam(defaultValue ="0")@Min(0) Integer offset
     ){
         ProductQueryParam productQueryParam = new ProductQueryParam();
@@ -40,7 +41,13 @@ public class ProductController {
         productQueryParam.setLimit(limit);
         productQueryParam.setOffset(offset);
         List<Product> productList =productService.getProducts(productQueryParam);
-        return ResponseEntity.status(HttpStatus.OK).body(productList);
+        Integer total = productService.getProductCount(productQueryParam);
+        Page<Product> page = new Page<>();
+        page.setLimit(limit);
+        page.setOffset(offset);
+        page.setTotal(total);
+        page.setList(productList);
+        return ResponseEntity.status(HttpStatus.OK).body(page);
     }
     @GetMapping("/products/{productId}")
     public ResponseEntity<Product> getProductById(@PathVariable Integer productId){
