@@ -2,7 +2,6 @@ package com.wellan.shoppingmallbackend.model;
 
 import com.wellan.shoppingmallbackend.constant.ProductCategory;
 
-import java.sql.Timestamp;
 import java.util.Date;
 
 public class Product {

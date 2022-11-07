@@ -1,7 +1,7 @@
 package com.wellan.shoppingmallbackend.controller;
 
 import com.wellan.shoppingmallbackend.constant.ProductCategory;
-import com.wellan.shoppingmallbackend.dto.ProductQueryParam;
+import com.wellan.shoppingmallbackend.constant.ProductQueryParam;
 import com.wellan.shoppingmallbackend.dto.ProductRequest;
 import com.wellan.shoppingmallbackend.model.Product;
 import com.wellan.shoppingmallbackend.service.ProductService;
@@ -23,16 +23,16 @@ public class ProductController {
     private ProductService productService;
     @GetMapping("/products")
     public ResponseEntity<Page<Product>> getProducts(
-//            查詢參數
+//             查詢條件
             @RequestParam(required = false) ProductCategory category,
             @RequestParam(required = false) String search,
-//            排序參數
+//            排序條件
             @RequestParam(defaultValue = "created_date") String orderBy,
-            @RequestParam(defaultValue = "desc")String sort,
-//            分頁參數
-            @RequestParam(defaultValue = "5")@Max(1000) @Min(0) Integer limit,
-            @RequestParam(defaultValue ="0")@Min(0) Integer offset
-    ){
+            @RequestParam(defaultValue = "desc") String sort,
+//            分頁條件
+            @RequestParam(defaultValue = "5") @Min(0)@Max(1000) Integer limit,
+            @RequestParam(defaultValue = "0") @Min(0) Integer offset
+            ){
         ProductQueryParam productQueryParam = new ProductQueryParam();
         productQueryParam.setCategory(category);
         productQueryParam.setSearch(search);
@@ -40,14 +40,16 @@ public class ProductController {
         productQueryParam.setSort(sort);
         productQueryParam.setLimit(limit);
         productQueryParam.setOffset(offset);
-        List<Product> productList =productService.getProducts(productQueryParam);
-        Integer total = productService.getProductCount(productQueryParam);
-        Page<Product> page = new Page<>();
-        page.setLimit(limit);
-        page.setOffset(offset);
-        page.setTotal(total);
-        page.setList(productList);
-        return ResponseEntity.status(HttpStatus.OK).body(page);
+        List<Product> productList = productService.getProducts(productQueryParam);
+        Page<Product> productPage =new Page<>();
+        productPage.setOffset(offset);
+        productPage.setLimit(limit);
+        productPage.setTotal(productService.countProduct(productQueryParam));
+        productPage.setList(productList);
+        return ResponseEntity.status(HttpStatus.OK).body(productPage);
+
+
+
     }
     @GetMapping("/products/{productId}")
     public ResponseEntity<Product> getProductById(@PathVariable Integer productId){
@@ -58,26 +60,24 @@ public class ProductController {
     }
     @PostMapping("/products")
     public ResponseEntity<Product> createProduct(@RequestBody @Valid ProductRequest productRequest){
-        Integer id = productService.createProduct(productRequest);
-        Product product = productService.getProductById(id);
+        Integer productId = productService.createProduct(productRequest);
+        Product product = productService.getProductById(productId);
         return ResponseEntity.status(HttpStatus.CREATED).body(product);
     }
     @PutMapping("/products/{productId}")
-    public ResponseEntity<Product> updateProduct(@PathVariable Integer productId,
-                                                 @RequestBody @Valid ProductRequest productRequest){
+    public ResponseEntity<Product> updateProductById(@PathVariable Integer productId,
+                                                     @RequestBody ProductRequest productRequest){
         Product product = productService.getProductById(productId);
         if (product==null){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
-        productService.updateProduct(productId,productRequest);
+        productService.updateProductById(productId,productRequest);
         Product productUpdated = productService.getProductById(productId);
-        return  ResponseEntity.status(HttpStatus.OK).body(productUpdated);
-
+        return ResponseEntity.status(HttpStatus.OK).body(productUpdated);
     }
     @DeleteMapping("/products/{productId}")
-    public ResponseEntity deleteProduct(@PathVariable Integer productId){
+    public ResponseEntity<?> deleteProductById(@PathVariable Integer productId){
         productService.deleteProductById(productId);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
-
 }

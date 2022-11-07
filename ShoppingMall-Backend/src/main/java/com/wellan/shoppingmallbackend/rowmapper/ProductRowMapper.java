@@ -6,6 +6,7 @@ import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Date;
 
 public class ProductRowMapper implements RowMapper<Product> {
     @Override
@@ -21,6 +22,5 @@ public class ProductRowMapper implements RowMapper<Product> {
         product.setCreatedDate(resultSet.getTimestamp("created_date"));
         product.setLastModifiedDate(resultSet.getTimestamp("last_modified_date"));
         return product;
-
     }
 }

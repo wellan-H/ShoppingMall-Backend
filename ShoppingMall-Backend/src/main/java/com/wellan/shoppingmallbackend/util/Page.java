@@ -3,18 +3,19 @@ package com.wellan.shoppingmallbackend.util;
 import java.util.List;
 
 public class Page<T> {
-    private Integer limit;
     private Integer offset;
+    private Integer limit;
     private Integer total;
     private List<T> list;
 
-    public Integer getLimit() {
-        return limit;
+    public Integer getTotal() {
+        return total;
     }
 
-    public void setLimit(Integer limit) {
-        this.limit = limit;
+    public void setTotal(Integer total) {
+        this.total = total;
     }
+
 
     public Integer getOffset() {
         return offset;
@@ -24,12 +25,12 @@ public class Page<T> {
         this.offset = offset;
     }
 
-    public Integer getTotal() {
-        return total;
+    public Integer getLimit() {
+        return limit;
     }
 
-    public void setTotal(Integer total) {
-        this.total = total;
+    public void setLimit(Integer limit) {
+        this.limit = limit;
     }
 
     public List<T> getList() {

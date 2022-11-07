@@ -1,13 +1,14 @@
 package com.wellan.shoppingmallbackend.dto;
 
+import com.wellan.shoppingmallbackend.constant.ProductCategory;
+
 import javax.validation.constraints.NotNull;
-import java.util.Date;
 
 public class ProductRequest {
     @NotNull
     String productName;
     @NotNull
-    String category;
+    ProductCategory category;
     @NotNull
     String imageUrl;
     @NotNull
@@ -15,7 +16,6 @@ public class ProductRequest {
     @NotNull
     Integer stock;
     String description;
-
 
     public String getProductName() {
         return productName;
@@ -25,11 +25,11 @@ public class ProductRequest {
         this.productName = productName;
     }
 
-    public String getCategory() {
+    public ProductCategory getCategory() {
         return category;
     }
 
-    public void setCategory(String category) {
+    public void setCategory(ProductCategory category) {
         this.category = category;
     }
 
