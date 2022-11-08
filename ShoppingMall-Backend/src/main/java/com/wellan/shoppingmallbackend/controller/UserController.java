@@ -1,5 +1,6 @@
 package com.wellan.shoppingmallbackend.controller;
 
+import com.wellan.shoppingmallbackend.dto.UserLoginRequest;
 import com.wellan.shoppingmallbackend.dto.UserRegisterRequest;
 import com.wellan.shoppingmallbackend.model.User;
 import com.wellan.shoppingmallbackend.service.UserService;
@@ -18,11 +19,15 @@ public class UserController {
 //    Logger logger;
     @Autowired
     private UserService userService;
-    @Transactional
     @PostMapping("/users/register")
     public ResponseEntity<User> register(@RequestBody @Valid UserRegisterRequest userRegisterRequest){
         Integer userId= userService.register(userRegisterRequest);
         User userCreate = userService.getUserById(userId);
         return ResponseEntity.status(HttpStatus.CREATED).body(userCreate);
+    }
+    @PostMapping("/users/login")
+    public ResponseEntity<User> login(@RequestBody @Valid UserLoginRequest userLoginRequest){
+        User user = userService.login(userLoginRequest);
+        return ResponseEntity.status(HttpStatus.OK).body(user);
     }
 }
