@@ -1,11 +1,13 @@
 package com.wellan.shoppingmallbackend.dto;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 public class UserRegisterRequest {
     @NotBlank
+    @Email
     private String email;
     @NotBlank
     private String password;

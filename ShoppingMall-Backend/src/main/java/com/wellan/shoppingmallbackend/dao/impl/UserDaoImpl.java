@@ -2,7 +2,9 @@ package com.wellan.shoppingmallbackend.dao.impl;
 
 import com.wellan.shoppingmallbackend.dao.UserDao;
 import com.wellan.shoppingmallbackend.dto.UserRegisterRequest;
+import com.wellan.shoppingmallbackend.model.Product;
 import com.wellan.shoppingmallbackend.model.User;
+import com.wellan.shoppingmallbackend.rowmapper.ProductRowMapper;
 import com.wellan.shoppingmallbackend.rowmapper.UserRowMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -44,7 +46,18 @@ public class UserDaoImpl implements UserDao {
         List<User> userList = namedParameterJdbctemplate.query(sql, map, new UserRowMapper());
         if (userList.size()>0){
             return userList.get(0);
-        }
-        return null;
+        }else   return null;
+    }
+
+    @Override
+    public User getUserByEmail(String email) {
+        String sql = "SELECT user_id, email, password, " +
+                "created_date, last_modified_date FROM user WHERE email=:email  ";
+        Map<String,Object> map = new HashMap<>();
+        map.put("email", email);
+        List<User> userList = namedParameterJdbctemplate.query(sql, map, new UserRowMapper());
+        if (userList.size()>0){
+            return userList.get(0);
+        }else   return null;
     }
 }
