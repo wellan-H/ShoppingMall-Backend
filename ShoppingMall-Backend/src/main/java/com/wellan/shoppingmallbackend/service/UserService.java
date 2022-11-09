@@ -1,6 +1,6 @@
 package com.wellan.shoppingmallbackend.service;
 
-import com.wellan.shoppingmallbackend.dto.UserLoginRequest;
+import com.wellan.shoppingmallbackend.dto.UserLoginRegister;
 import com.wellan.shoppingmallbackend.dto.UserRegisterRequest;
 import com.wellan.shoppingmallbackend.model.User;
 
@@ -9,5 +9,5 @@ public interface UserService {
 
     User getUserById(Integer userId);
 
-    User login(UserLoginRequest userLoginRequest);
+    User login(UserLoginRegister userLoginRegister);
 }
