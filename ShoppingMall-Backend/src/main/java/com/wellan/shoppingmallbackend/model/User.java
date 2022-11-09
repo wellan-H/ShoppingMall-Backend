@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Date;
 
 public class User {
-    private Integer userId;
+    private Integer UserId;
     @JsonProperty("e_mail")
     private String email;
     @JsonIgnore
@@ -15,11 +15,11 @@ public class User {
     private Date lastModifiedDate;
 
     public Integer getUserId() {
-        return userId;
+        return UserId;
     }
 
     public void setUserId(Integer userId) {
-        this.userId = userId;
+        UserId = userId;
     }
 
     public String getEmail() {

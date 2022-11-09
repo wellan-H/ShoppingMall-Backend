@@ -3,7 +3,7 @@ package com.wellan.shoppingmallbackend.dto;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
-public class UserLoginRequest {
+public class UserLoginRegister {
     @NotBlank
     @Email
     private String email;
