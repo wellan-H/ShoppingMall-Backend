@@ -4,6 +4,7 @@ import com.wellan.shoppingmallbackend.dao.OrderDao;
 import com.wellan.shoppingmallbackend.dao.ProductDao;
 import com.wellan.shoppingmallbackend.dto.BuyItem;
 import com.wellan.shoppingmallbackend.dto.CreateOrderRequest;
+import com.wellan.shoppingmallbackend.model.Order;
 import com.wellan.shoppingmallbackend.model.OrderItem;
 import com.wellan.shoppingmallbackend.model.Product;
 import com.wellan.shoppingmallbackend.service.OrderService;
@@ -43,5 +44,13 @@ public class OrderServiceImpl implements OrderService  {
         Integer orderId = orderDao.createOrder(userId,totalAmount);
         orderDao.createOrderItems(orderId,orderItemList);
         return orderId;
+    }
+
+    @Override
+    public Order getOrderById(Integer orderId) {
+        Order order = orderDao.getOrderById(orderId);
+        List<OrderItem> orderItemList = orderDao.getOrderItemByOrderId(orderId);
+        order.setItemList(orderItemList);
+        return order;
     }
 }
