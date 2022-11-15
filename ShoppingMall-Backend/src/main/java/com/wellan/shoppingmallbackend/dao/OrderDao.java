@@ -1,5 +1,6 @@
 package com.wellan.shoppingmallbackend.dao;
 
+import com.wellan.shoppingmallbackend.dto.OrderQueryParams;
 import com.wellan.shoppingmallbackend.model.Order;
 import com.wellan.shoppingmallbackend.model.OrderItem;
 
@@ -13,4 +14,8 @@ public interface OrderDao {
     Order getOrderById(Integer orderId);
 
     List<OrderItem> getOrderItemByOrderId(Integer orderId);
+
+    Integer countOrder(OrderQueryParams orderQueryParams);
+
+    List<Order> getOrders(OrderQueryParams orderQueryParams);
 }
